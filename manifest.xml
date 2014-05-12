@@ -4,11 +4,21 @@
      grid_creation
 
   </description>
-  <author>hdeeken</author>
+  <author>muffin studygroup</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/grid_creation</url>
+	<depend package="std_msgs"/>
+	<depend package="roscpp"/>
+	<depend package="tf"/>
+	<depend package="nav_msgs"/>
+	<depend package="visualization_msgs"/>
+	<depend package="lvr_tools"/>
 
+  <export>
+    <cpp cflags="-I${prefix}/include" lflags="-L${prefix}/lib"/>
+  </export>
+	
 </package>
 
 
