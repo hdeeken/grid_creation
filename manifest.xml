@@ -1,0 +1,14 @@
+<package>
+  <description brief="grid_creation">
+
+     grid_creation
+
+  </description>
+  <author>hdeeken</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/grid_creation</url>
+
+</package>
+
+
