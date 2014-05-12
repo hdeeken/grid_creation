@@ -30,35 +30,36 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <lvr_tools/BoundingBox.h>
+#include <tf/tf.h>
 
 class GridCreation{
 
-    public:
-        static vector<geometry_msgs::Point> convertToGeometryMsgsPoints(
-            vector<float> input);
+        public:
+                static std::vector<geometry_msgs::Point> convertToGeometryMsgsPoints(
+                                std::vector<float> input);
 
-        static void drawLineBresenham(int x1, int y1, int x2, int y2, 
-            vector<signed char>& data, int width)
-        
-        static bool createOccupancyGrid(
-            string frame,
-            ros::Time time,
-            geometry_msgs::Pose origin,
-            vector<float> points,
-            double resolution,
-            double unoccupied_default,
-            nav_msgs::OccupancyGrid& grid);
+                static void drawLineBresenham(int x1, int y1, int x2, int y2, 
+                                std::vector<signed char>& data, int width);
 
-        static visualization_msgs::MarkerArray createMarkerArray(
-            string frame,
-            geometry_msgs::Pose pose,
-            vector<geometry_msgs::Point> points,
-            std_msgs::ColorRGBA rgba);
+                static bool createOccupancyGrid(
+                                std::string frame,
+                                ros::Time time,
+                                geometry_msgs::Pose origin,
+                                std::vector<float> points,
+                                double resolution,
+                                double unoccupied_default,
+                                nav_msgs::OccupancyGrid& grid);
 
-		bool creatSegments(
-			lvr_tools::BoundingBox bbox,
-			double resolution,
-			double padding,
-			std::vector<float> points);
+                static visualization_msgs::MarkerArray createMarkerArray(
+                                std::string frame,
+                                geometry_msgs::Pose pose,
+                                std::vector<geometry_msgs::Point> points,
+                                std_msgs::ColorRGBA rgba);
+
+                bool creatSegments(
+                                lvr_tools::BoundingBox bbox,
+                                double resolution,
+                                double padding,
+                                std::vector<float> points);
 
 };

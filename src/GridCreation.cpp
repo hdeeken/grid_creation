@@ -25,10 +25,10 @@
  */
 
 #include <GridCreation.hpp>
-vector<geometry_msgs::Point> GridCreation::convertToGeometryMsgsPoints(
-    vector<float> input)
+std::vector<geometry_msgs::Point> GridCreation::convertToGeometryMsgsPoints(
+    std::vector<float> input)
 {
-    vector<geometry_msgs::Point> output;
+    std::vector<geometry_msgs::Point> output;
 
     for(unsigned int i = 0; i < input.size(); i+=3)
     {
@@ -42,7 +42,7 @@ vector<geometry_msgs::Point> GridCreation::convertToGeometryMsgsPoints(
     return output;
 }
 
-void GridCraetion::drawLineBresenham(int x1, int y1, int x2, int y2, vector<signed char>& data, int width)
+void GridCreation::drawLineBresenham(int x1, int y1, int x2, int y2, std::vector<signed char>& data, int width)
 {
     int x,y,dx,dy,dx1,dy1,px,py,xe,ye,i;
     dx=x2-x1;
@@ -132,10 +132,10 @@ void GridCraetion::drawLineBresenham(int x1, int y1, int x2, int y2, vector<sign
 }
 
 bool GridCreation::createOccupancyGrid(
-    string frame,
+    std::string frame,
     ros::Time time,
     geometry_msgs::Pose origin,
-    vector<float> points,
+    std::vector<float> points,
     double resolution,
     double unoccupied_default,
     nav_msgs::OccupancyGrid& grid)
@@ -156,7 +156,7 @@ bool GridCreation::createOccupancyGrid(
     float max_y = FLT_MIN;
 
     // extract the relevant dimensions and determine min and max boundaries
-    vector<float> points_2d;
+    std::vector<float> points_2d;
 
     std::vector<float>::iterator x_iter1, x_iter2, y_iter1, y_iter2;
 
@@ -189,7 +189,7 @@ bool GridCreation::createOccupancyGrid(
     int width  = static_cast<int>((max_x - min_x) / resolution) + 2;
     int height = static_cast<int>((max_y - min_y) / resolution) + 2;  
 
-    vector<signed char> data;
+    std::vector<signed char> data;
     data.resize(width * height, unoccupied_default); 
 
     // iterate the points an draw them onto the plane,
@@ -209,10 +209,10 @@ bool GridCreation::createOccupancyGrid(
         x_iter2 += 4,
         y_iter2 += 4)
     {
-        a_x = (int) ((*x_iter1 - min_i) / resolution ) + 1;
-        a_y = (int) ((*y_iter1 - min_j) / resolution ) + 1;
-        b_x = (int) ((*x_iter2 - min_i) / resolution ) + 1; 
-        b_y = (int) ((*y_iter2 - min_j) / resolution ) + 1;
+        a_x = (int) ((*x_iter1 - min_x) / resolution ) + 1;
+        a_y = (int) ((*y_iter1 - min_y) / resolution ) + 1;
+        b_x = (int) ((*x_iter2 - min_x) / resolution ) + 1; 
+        b_y = (int) ((*y_iter2 - min_y) / resolution ) + 1;
         GridCreation::drawLineBresenham(a_x, a_y, b_x, b_y, data, width);
     }
 
@@ -233,9 +233,9 @@ bool GridCreation::createOccupancyGrid(
 }
 
 visualization_msgs::MarkerArray GridCreation::createMarkerArray(
-    string frame,
+    std::string frame,
     geometry_msgs::Pose pose,
-    vector<geometry_msgs::Point> points,
+    std::vector<geometry_msgs::Point> points,
     std_msgs::ColorRGBA rgba)
 {
     visualization_msgs::MarkerArray marker;
@@ -301,9 +301,6 @@ bool GridCreation::creatSegments(		lvr_tools::BoundingBox bbox,
 		// to rotate the edges with padding
 		tf::Transform transform(orientation);
 
-		float bbox_width  = bbox.x_edge + 2 * padding;
-		float bbox_height = bbox.y_edge + 2 * padding;
-
 		tf::Vector3 minX (- padding, 0, 0);
 		tf::Vector3 maxX (bbox.x_edge + padding, 0, 0);
 		tf::Vector3 minY (0, - padding, 0);
@@ -319,15 +316,8 @@ bool GridCreation::creatSegments(		lvr_tools::BoundingBox bbox,
 		
 		float minXMap = std::min( std::min(a.x(), b.x() ), std::min( c.x(), d.x() ) );
 		float minYMap = std::min( std::min(a.y(), b.y() ), std::min( c.y(), d.y() ) );
-		float maxXMap = std::max( std::max(a.x(), b.x() ), std::max( c.x(), d.x() ) );
-		float maxYMap = std::max( std::max(a.y(), b.y() ), std::max( c.y(), d.y() ) );
 
 		tf::Vector3 minPos(minXMap, minYMap, 0);
-		// calculate the size of the map depending on
-		// the resolution. + 1 and +2 is an padding 
-		int width  = static_cast<int>((maxXMap - minXMap) / resolution ) + 2;
-		int height = static_cast<int>((maxYMap - minYMap) / resolution ) + 2;
-
 
 		float parts = std::ceil(rel_height.length() / (resolution *0.33)); 
 		
