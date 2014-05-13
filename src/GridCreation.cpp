@@ -340,3 +340,125 @@ bool GridCreation::creatSegments(		lvr_tools::BoundingBox bbox,
 		return true;
 	}
 
+/* MARKER STUFF
+ * 
+ * 
+ * void PostgisServices::printBBox(lvr_tools::BoundingBox bbox)
+{
+	cout << "Frame: " << bbox.pose.header.frame_id << endl;
+	cout << "Position: " << bbox.pose.pose.position.x << " " << bbox.pose.pose.position.y << " " << bbox.pose.pose.position.z << endl;
+	cout << "Orientation: " << bbox.pose.pose.orientation.x << " " << bbox.pose.pose.orientation.y << " " << bbox.pose.pose.orientation.z << " " << bbox.pose.pose.orientation.w << endl;
+	cout << "Extension: " << bbox.x_edge << " " << bbox.y_edge << " " << bbox.z_edge << endl;
+}
+
+visualization_msgs::Marker PostgisServices::create_box_label(lvr_tools::BoundingBox bbox, string text, string name, geometry_msgs::Vector3 scale,std_msgs::ColorRGBA color)
+{
+	visualization_msgs::Marker bbox_marker;
+
+	bbox_marker.header.frame_id = bbox.pose.header.frame_id;
+	bbox_marker.header.stamp = ros::Time::now();
+	bbox_marker.ns = name;
+	bbox_marker.id = 0;
+	bbox_marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
+
+	bbox_marker.pose =  bbox.pose.pose;
+	bbox_marker.pose.position.x += bbox.x_edge/2;
+	bbox_marker.pose.position.y += bbox.y_edge/2;
+	bbox_marker.pose.position.z += bbox.z_edge/2;
+	bbox_marker.scale = scale;
+	bbox_marker.color = color;
+	bbox_marker.text = text;
+
+	return bbox_marker;
+}
+
+visualization_msgs::Marker PostgisServices::create_box_marker(lvr_tools::BoundingBox bbox, string name, geometry_msgs::Vector3 scale,std_msgs::ColorRGBA color)
+{
+	visualization_msgs::Marker bbox_marker;
+
+	bbox_marker.header.frame_id = bbox.pose.header.frame_id;
+	bbox_marker.header.stamp = ros::Time::now();
+	bbox_marker.ns = name;
+	bbox_marker.id = 0;
+	bbox_marker.type = visualization_msgs::Marker::LINE_LIST;
+
+	bbox_marker.pose =  bbox.pose.pose;
+	bbox_marker.scale = scale;
+	bbox_marker.color = color;
+
+	// all points
+	geometry_msgs::Point zero;
+		zero.x = 0; zero.y = 0; zero.z = 0;
+	geometry_msgs::Point one;
+		one.x = bbox.x_edge; one.y = 0; one.z = 0;
+	geometry_msgs::Point two;
+		two.x = bbox.x_edge; two.y = 0; two.z = bbox.z_edge;
+	geometry_msgs::Point three;
+		three.x = 0; three.y = 0; three.z = bbox.z_edge;
+	geometry_msgs::Point four;
+		four.x = 0; four.y = bbox.y_edge; four.z = 0;
+	geometry_msgs::Point five;
+		five.x = bbox.x_edge; five.y = bbox.y_edge; five.z = 0;
+	geometry_msgs::Point six;
+		six.x = bbox.x_edge; six.y = bbox.y_edge; six.z = bbox.z_edge;
+	geometry_msgs::Point seven;
+		seven.x = 0; seven.y = bbox.y_edge; seven.z = bbox.z_edge;
+
+	// all edges
+	//zero
+	bbox_marker.points.push_back(zero);
+	bbox_marker.points.push_back(one);
+	//one
+	bbox_marker.points.push_back(one);
+	bbox_marker.points.push_back(two);
+	//two
+	bbox_marker.points.push_back(two);
+	bbox_marker.points.push_back(three);
+	//three
+	bbox_marker.points.push_back(zero);
+	bbox_marker.points.push_back(three);
+	//four
+	bbox_marker.points.push_back(four);
+	bbox_marker.points.push_back(five);
+	//five
+	bbox_marker.points.push_back(five);
+	bbox_marker.points.push_back(six);
+	//six
+	bbox_marker.points.push_back(six);
+	bbox_marker.points.push_back(seven);
+	//seven
+	bbox_marker.points.push_back(four);
+	bbox_marker.points.push_back(seven);
+	//eight
+	bbox_marker.points.push_back(zero);
+	bbox_marker.points.push_back(four);
+	//nine
+	bbox_marker.points.push_back(one);
+	bbox_marker.points.push_back(five);
+	//ten
+	bbox_marker.points.push_back(two);
+	bbox_marker.points.push_back(six);
+	//eleven
+	bbox_marker.points.push_back(three);
+	bbox_marker.points.push_back(seven);
+
+	return bbox_marker;
+}
+
+visualization_msgs::MarkerArray PostgisServices::create_bbox_marker(lvr_tools::BoundingBox bbox, string name, geometry_msgs::Vector3 scale,std_msgs::ColorRGBA color)
+{
+		visualization_msgs::MarkerArray marker;
+
+		marker.markers.push_back(create_box_marker(bbox, name + "_box", scale, color));
+		marker.markers.push_back(create_box_label(bbox, name, name + "_label", scale, color));
+
+		return marker;
+}
+
+ * 
+ * 
+ * 
+ * 
+*/
+
+
