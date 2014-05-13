@@ -155,17 +155,14 @@ bool GridCreation::createOccupancyGrid(
     float max_x = FLT_MIN;
     float max_y = FLT_MIN;
 
-    // extract the relevant dimensions and determine min and max boundaries
-    std::vector<float> points_2d;
-
     std::vector<float>::iterator x_iter1, x_iter2, y_iter1, y_iter2;
 
-    for(    x_iter1 = points.begin(),
+    for(x_iter1 = points.begin(),
         y_iter1 = points.begin() + 1,
         x_iter2 = points.begin() + 2,
         y_iter2 = points.begin() + 3;
 
-        y_iter2 != points_2d.end();
+        y_iter2 != points.end();
     
         x_iter1 += 4,
         y_iter1 += 4,
@@ -197,12 +194,12 @@ bool GridCreation::createOccupancyGrid(
     
     int a_x, a_y, b_x, b_y;
     
-    for(    x_iter1 = points.begin(),
+    for(x_iter1 = points.begin(),
         y_iter1 = points.begin() + 1,
         x_iter2 = points.begin() + 2,
         y_iter2 = points.begin() + 3;
 
-        y_iter2 != points_2d.end();
+        y_iter2 != points.end();
     
         x_iter1 += 4,
         y_iter1 += 4,
@@ -279,11 +276,12 @@ visualization_msgs::MarkerArray GridCreation::createMarkerArray(
 }
 
 
-bool GridCreation::creatSegments(		lvr_tools::BoundingBox bbox,
-										double resolution,
-										double padding,
-										std::vector<float> points)
-	{
+bool GridCreation::creatSegments(
+    lvr_tools::BoundingBox bbox,
+		double resolution,
+		double padding,
+		std::vector<float> points)
+{
 		// determine 2d bounding area 
 		// note the plane is called ij from here on
 		// z-coord should be zero
@@ -329,14 +327,12 @@ bool GridCreation::creatSegments(		lvr_tools::BoundingBox bbox,
 		for(i = 0, start = -minPos , end = rel_width - minPos;
 			i < parts ;
 			start += increment, end += increment, i++)
-		{
-			
+		{	
 			points.push_back(start.x());
 			points.push_back(start.y());
 			points.push_back(end.x());
 			points.push_back(end.y());
 		}
-
 		return true;
 	}
 
