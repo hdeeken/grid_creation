@@ -26,7 +26,7 @@
 
 #include <GridCreation.hpp>
 std::vector<geometry_msgs::Point> GridCreation::convertToGeometryMsgsPoints(
-    std::vector<float> input)
+    std::vector<double> input)
 {
     std::vector<geometry_msgs::Point> output;
 
@@ -135,7 +135,7 @@ bool GridCreation::createOccupancyGrid(
     std::string frame,
     ros::Time time,
     geometry_msgs::Pose origin,
-    std::vector<float> points,
+    std::vector<double> points,
     double resolution,
     double unoccupied_default,
     nav_msgs::OccupancyGrid& grid)
@@ -150,12 +150,12 @@ bool GridCreation::createOccupancyGrid(
 
     // determine 2d bounding area 
 
-    float min_x = FLT_MAX;
-    float min_y = FLT_MAX;
-    float max_x = FLT_MIN;
-    float max_y = FLT_MIN;
+    double min_x = DBL_MAX;
+    double min_y = DBL_MAX;
+    double max_x = DBL_MIN;
+    double max_y = DBL_MIN;
 
-    std::vector<float>::iterator x_iter1, x_iter2, y_iter1, y_iter2;
+    std::vector<double>::iterator x_iter1, x_iter2, y_iter1, y_iter2;
 
     for(x_iter1 = points.begin(),
         y_iter1 = points.begin() + 1,
@@ -280,7 +280,7 @@ bool GridCreation::creatSegments(
     lvr_tools::BoundingBox bbox,
 		double resolution,
 		double padding,
-		std::vector<float> points)
+		std::vector<double> points)
 {
 		// determine 2d bounding area 
 		// note the plane is called ij from here on

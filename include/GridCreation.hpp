@@ -36,7 +36,7 @@ class GridCreation{
 
         public:
                 static std::vector<geometry_msgs::Point> convertToGeometryMsgsPoints(
-                                std::vector<float> input);
+                                std::vector<double> input);
 
                 static void drawLineBresenham(int x1, int y1, int x2, int y2, 
                                 std::vector<signed char>& data, int width);
@@ -45,7 +45,7 @@ class GridCreation{
                                 std::string frame,
                                 ros::Time time,
                                 geometry_msgs::Pose origin,
-                                std::vector<float> points,
+                                std::vector<double> points,
                                 double resolution,
                                 double unoccupied_default,
                                 nav_msgs::OccupancyGrid& grid);
@@ -56,10 +56,10 @@ class GridCreation{
                                 std::vector<geometry_msgs::Point> points,
                                 std_msgs::ColorRGBA rgba);
 
-                bool creatSegments(
+                static bool creatSegments(
                                 lvr_tools::BoundingBox bbox,
                                 double resolution,
                                 double padding,
-                                std::vector<float> points);
+                                std::vector<double> points);
 
 };
