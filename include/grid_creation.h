@@ -35,31 +35,55 @@
 class GridCreation{
 
         public:
-                static std::vector<geometry_msgs::Point> convertToGeometryMsgsPoints(
-                                std::vector<float> input);
-
                 static void drawLineBresenham(int x1, int y1, int x2, int y2, 
                                 std::vector<signed char>& data, int width);
+
+
+                static bool createBoxSegments(
+                                lvr_tools::BoundingBox bbox,
+                                double resolution,
+                                double padding,
+                                std::vector<double>& segments,
+                                std::vector<geometry_msgs::Point>& points);
 
                 static bool createOccupancyGrid(
                                 std::string frame,
                                 ros::Time time,
                                 geometry_msgs::Pose origin,
-                                std::vector<float> points,
+                                std::vector<double> points,
                                 double resolution,
                                 double unoccupied_default,
                                 nav_msgs::OccupancyGrid& grid);
 
-                static visualization_msgs::MarkerArray createMarkerArray(
+                static visualization_msgs::Marker createPointMarker(
+                                std::string name,
                                 std::string frame,
                                 geometry_msgs::Pose pose,
                                 std::vector<geometry_msgs::Point> points,
-                                std_msgs::ColorRGBA rgba);
+                                std_msgs::ColorRGBA rgba,
+                                geometry_msgs::Vector3 scale);
+                                
+                static visualization_msgs::Marker createLineMarker(
+                                std::string name,
+                                std::string frame,
+                                geometry_msgs::Pose pose,
+                                std::vector<geometry_msgs::Point> points,
+                                std_msgs::ColorRGBA rgba,
+                                geometry_msgs::Vector3 scale);
+    
+                static visualization_msgs::Marker createBoxMarker(
+                                lvr_tools::BoundingBox bbox, 
+                                std::string name, 
+                                std::string frame,
+                                geometry_msgs::Vector3 scale, 
+                                std_msgs::ColorRGBA color);
 
-                bool creatSegments(
-                                lvr_tools::BoundingBox bbox,
-                                double resolution,
-                                double padding,
-                                std::vector<float> points);
+                static visualization_msgs::Marker createBoxLabel(
+                                lvr_tools::BoundingBox bbox, 
+                                std::string text, 
+                                std::string name, 
+                                std::string frame,
+                                geometry_msgs::Vector3 scale, 
+                                std_msgs::ColorRGBA color);
 
 };
